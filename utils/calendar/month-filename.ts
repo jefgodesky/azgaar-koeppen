@@ -1,8 +1,9 @@
 import type World from '../../types/World.ts'
-import getMonthNum from './month-num.ts'
+import getMonth from './month.ts'
 
 const getMonthFilename = (world: World, month: string): string => {
-  const n = getMonthNum(world, month) + 1
+  const { index } = getMonth(world, month)
+  const n = index + 1
   if (n < 1) return '00-na'
 
   const total = Object.keys(world.months).length

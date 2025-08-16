@@ -3,7 +3,7 @@ interface World {
   tilt: number // World's axial tilt in degrees.
   solar: number // Solar constant in Watts per square kilometer (W/m²)
   months: Record<string, number> // Codes for months, with number of days in each
-  equinoxMonth: number // In which month (0-based index) does your first (vernal) equinox occur?
+  equinox: number // The day of the year on which your first (vernal) equinox occurs
   secondsPerDay: number // Number of seconds in a day on this world
   land: {
     albedo: number // What fraction of solar radiation is reflected by land?
@@ -40,7 +40,7 @@ export const createWorld = (overrides?: Partial<World>): World => {
       Nov: 30,
       Dec: 31
     },
-    equinoxMonth: 2,
+    equinox: 79, // March 20
     secondsPerDay: 24 * 60 * 60,
     land: {
       albedo: 0.3,

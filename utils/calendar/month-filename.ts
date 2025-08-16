@@ -1,4 +1,4 @@
-import type World from '../types/World.ts'
+import type World from '../../types/World.ts'
 import getMonthNum from './month-num.ts'
 
 const getMonthFilename = (world: World, month: string): string => {

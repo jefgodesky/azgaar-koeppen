@@ -1,4 +1,4 @@
-import type World from '../types/World.ts'
+import type World from '../../types/World.ts'
 
 const getMonthNames = (world: World): string[] => {
   return Object.keys(world.months)

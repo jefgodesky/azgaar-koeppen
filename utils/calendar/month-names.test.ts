@@ -1,6 +1,6 @@
 import { describe, it } from 'jsr:@std/testing/bdd'
 import { expect } from 'jsr:@std/expect'
-import { createWorld } from '../types/World.ts'
+import { createWorld } from '../../types/World.ts'
 import getMonthNames from './month-names.ts'
 
 describe('getMonthNames', () => {

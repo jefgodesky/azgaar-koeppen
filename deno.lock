@@ -12,7 +12,8 @@
     "jsr:@std/internal@^1.0.9": "1.0.10",
     "jsr:@std/path@^1.1.1": "1.1.1",
     "jsr:@std/testing@*": "1.0.15",
-    "jsr:@std/testing@^1.0.15": "1.0.15"
+    "jsr:@std/testing@^1.0.15": "1.0.15",
+    "npm:chroma-js@^3.1.2": "3.1.2"
   },
   "jsr": {
     "@std/assert@1.0.14": {
@@ -57,11 +58,17 @@
       ]
     }
   },
+  "npm": {
+    "chroma-js@3.1.2": {
+      "integrity": "sha512-IJnETTalXbsLx1eKEgx19d5L6SRM7cH4vINw/99p/M11HCuXGRWL+6YmCm7FWFGIo6dtWuQoQi1dc5yQ7ESIHg=="
+    }
+  },
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1",
       "jsr:@std/expect@^1.0.17",
-      "jsr:@std/testing@^1.0.15"
+      "jsr:@std/testing@^1.0.15",
+      "npm:chroma-js@^3.1.2"
     ]
   }
 }

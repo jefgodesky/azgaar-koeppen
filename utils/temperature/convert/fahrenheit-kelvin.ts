@@ -1,0 +1,1 @@
+export default (f: number): number => (f + 459.67) * (5 / 9)

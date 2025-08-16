@@ -1,7 +1,7 @@
 import type Coords from '../../types/Coords.ts'
 import World, { createWorld } from '../../types/World.ts'
-import radiansToDegrees from '../math/radians-to-degrees.ts'
-import degreesToRadians from '../math/degrees-to-radians.ts'
+import radiansToDegrees from './radians-to-degrees.ts'
+import degreesToRadians from './degrees-to-radians.ts'
 
 const followBearing = (
   origin: Coords,

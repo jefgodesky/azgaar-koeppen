@@ -1,6 +1,6 @@
 import type Coords from '../../types/Coords.ts'
 import World, { createWorld } from '../../types/World.ts'
-import degreesToRadians from '../math/degrees-to-radians.ts'
+import degreesToRadians from './degrees-to-radians.ts'
 
 /**
  * Based heavily on Chris Veness's work found here:

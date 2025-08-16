@@ -1,8 +1,6 @@
 import type World from '../../types/World.ts'
-import getMonthStart from './month-start.ts'
-import getMonth from './month.ts'
-import getYearLength from './year.ts'
-import getAverage from '../math/avg.ts'
+import getMonthMidpoint from './month-mid.ts'
+import getYearFraction from './year-fraction.ts'
 
 /**
  * Calculates the fraction of the year (0-1) that has passed when you reach
@@ -14,12 +12,8 @@ import getAverage from '../math/avg.ts'
  */
 
 const getMonthYearFraction = (world: World, month: string | number): number => {
-  const { name } = getMonth(world, month)
-  if (name === 'n/a') return -1
-
-  const start = getMonthStart(world, month)
-  const end = start + world.months[name]
-  return getAverage(start, end) / getYearLength(world)
+  const mid = getMonthMidpoint(world, month)
+  return mid < 0 ? -1 : getYearFraction(world, mid)
 }
 
 export default getMonthYearFraction

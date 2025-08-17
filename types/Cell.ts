@@ -11,6 +11,11 @@ interface Cell {
   }
   area: number
   elevation: number
+  climate: {
+    classification: string
+    temperatures: Record<string, number>
+    precipitation: Record<string, number>
+  }
   neighbors: number[]
 }
 
@@ -22,6 +27,11 @@ export const createCell = (overrides?: Partial<Cell>): Cell => {
     point: { x: 0, y: 0 },
     area: 100,
     elevation: 20,
+    climate: {
+      classification: '-',
+      temperatures: {},
+      precipitation: {}
+    },
     neighbors: [],
     ...overrides
   }

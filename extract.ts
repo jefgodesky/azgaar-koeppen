@@ -3,7 +3,7 @@ import type AzgaarMapCoords from './types/AzgaarMapCoords.ts'
 import type AzgaarSettings from './types/AzgaarSettings.ts'
 import type AzgaarPackCell from './types/AzgaarPackCell.ts'
 import type AzgaarGridCell from './types/AzgaarGridCell.ts'
-import type Cell from './types/Cell.ts'
+import Cell, { createCell } from './types/Cell.ts'
 import extractHeightExp from './utils/extraction/height-exp.ts'
 import extractMapBounds from './utils/extraction/map-bounds.ts'
 import extractBiomes from './utils/extraction/biomes.ts'
@@ -32,7 +32,7 @@ const extract = (src: string, output: string): void => {
       const [x, y] = p.p
       const g = gridCells.find(g => g.i === p.g)
 
-      cells[id] = {
+      cells[id] = createCell({
         id,
         type: biomes[p.biome] === 'Marine' ? 'water' : 'land',
         coords: extractCoords(p, info, bounds),
@@ -40,7 +40,7 @@ const extract = (src: string, output: string): void => {
         area: extractArea(p, settings),
         elevation: g ? extractElevation(p, g, heightExponent) : 0,
         neighbors: p.c
-      }
+      })
     })
 
     Deno.writeTextFileSync(output, JSON.stringify(cells))

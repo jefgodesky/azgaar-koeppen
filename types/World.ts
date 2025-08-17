@@ -4,20 +4,11 @@ interface World {
   solar: number // Solar constant in Watts per square kilometer (W/m²)
   months: Record<string, number> // Codes for months, with number of days in each
   equinox: number // The day of the year on which your first (vernal) equinox occurs
-  secondsPerDay: number // Number of seconds in a day on this world
-  land: {
-    albedo: number // What fraction of solar radiation is reflected by land?
-    heatCapacity: number // Average land heat capacity in joule per kelvin (J/K)
-  }
-  water: {
-    albedo: number // What fraction of solar radiation is reflected by water?
-    heatCapacity: number // Water's heat capacity in joule per kelvin (J/K)
-  }
-  temperatureDiffusion: number // A fraction reflecting how much temperature diffuses between cells
-  atmosphere: {
-    transmissivity: number // The fraction of solar energy that makes it through.
-    damping: number // Estimate of longwave linear damping
-    intercept: number // How much longwave radiation remains in atmosphere
+  secondsPerDay: number // Number of seconds in a day
+  temperature: {
+    insolation: [number, number] // Lowest, highest expected insolation in Watts per square kilometer (W/m²)
+    celsius: [number, number] // Expected temps at those insolation levels in degrees Celsius (°C)
+    extremes?: [number, number] // Lowest and highest temps allowed in degrees Celsius (°C)
   }
 }
 
@@ -42,19 +33,10 @@ export const createWorld = (overrides?: Partial<World>): World => {
     },
     equinox: 79, // March 20
     secondsPerDay: 24 * 60 * 60,
-    land: {
-      albedo: 0.3,
-      heatCapacity: 1e7
-    },
-    water: {
-      albedo: 0.06,
-      heatCapacity: 8e7
-    },
-    temperatureDiffusion: 0.1,
-    atmosphere: {
-      transmissivity: 0.5,
-      damping: 5.6,
-      intercept: 0
+    temperature: {
+      insolation: [0, 420],
+      celsius: [-50, 28],
+      extremes: [-60, 50]
     },
     ...overrides
   }

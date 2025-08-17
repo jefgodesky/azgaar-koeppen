@@ -1,7 +1,7 @@
 import type World from '../../types/World.ts'
 import getMonthNames from './month-names.ts'
 
-interface MonthData {
+export interface MonthData {
   name: string
   index: number
 }

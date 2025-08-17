@@ -9,6 +9,10 @@ interface World {
     insolation: [number, number] // Lowest, highest expected insolation in Watts per square kilometer (W/m²)
     celsius: [number, number] // Expected temps at those insolation levels in degrees Celsius (°C)
     extremes?: [number, number] // Lowest and highest temps allowed in degrees Celsius (°C)
+    inertia: {
+      land: number // A number between 0-1 measuring how much land cells retain heat
+      water: number // A number between 0-1 measuring how much water cells retain heat
+    }
   }
 }
 
@@ -36,7 +40,11 @@ export const createWorld = (overrides?: Partial<World>): World => {
     temperature: {
       insolation: [0, 420],
       celsius: [-50, 28],
-      extremes: [-60, 50]
+      extremes: [-60, 50],
+      inertia: {
+        land: 0.8,
+        water: 0.3
+      }
     },
     ...overrides
   }

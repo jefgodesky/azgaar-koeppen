@@ -1,3 +1,5 @@
+import { program } from 'commander'
+
 import type AzgaarInfo from './types/AzgaarInfo.ts'
 import type AzgaarMapCoords from './types/AzgaarMapCoords.ts'
 import type AzgaarSettings from './types/AzgaarSettings.ts'
@@ -13,7 +15,7 @@ import extractElevation from './utils/extraction/elevation.ts'
 
 type DataObj = Record<string, unknown>
 
-const extract = (src: string, output: string): void => {
+const extract = (src: string): Record<number, Cell> => {
   try {
     const content = Deno.readTextFileSync(src)
     const data: DataObj = JSON.parse(content)
@@ -43,7 +45,7 @@ const extract = (src: string, output: string): void => {
       })
     })
 
-    Deno.writeTextFileSync(output, JSON.stringify(cells))
+    return cells
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'No error message provided'
     console.error(`Error reading file: ${msg}`)
@@ -52,21 +54,17 @@ const extract = (src: string, output: string): void => {
 }
 
 if (import.meta.main) {
-  const srcFlagIndex = Deno.args.indexOf('-src')
-  if (srcFlagIndex < 0 || srcFlagIndex === Deno.args.length - 1) {
-    console.error('Usage: deno task extract -src <value>')
-    Deno.exit(1)
-  }
+  program
+    .name('azgaar-koeppen-extract')
+    .description('Extract the full JSON export from a map created with Azgaar’s Fantasy Map Generator.')
+    .version('1.0.0')
+    .option('-s, --source <path>', 'The full JSON export to extract.')
+    .option('-d, --dest <path>', 'A JSON file to save extracted data to.')
 
-  const oFlagIndex = Deno.args.indexOf('-o') || Deno.args.indexOf('--output')
-  if (oFlagIndex < 0 || oFlagIndex === Deno.args.length - 1) {
-    console.error('Usage: deno task extract -o <value>')
-    Deno.exit(1)
-  }
-
-  const src = Deno.args[srcFlagIndex + 1]
-  const output = Deno.args[oFlagIndex + 1]
-  extract(src, output)
+  program.parse(Deno.args, { from: 'user' })
+  const { source, dest } = program.opts()
+  const data = extract(source)
+  Deno.writeTextFileSync(dest, JSON.stringify(data))
 }
 
 export default extract

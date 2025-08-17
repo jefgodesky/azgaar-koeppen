@@ -9,6 +9,7 @@
     "@std/expect": "jsr:@std/expect@^1.0.17",
     "@std/testing": "jsr:@std/testing@^1.0.15",
     "chroma-js": "npm:chroma-js@^3.1.2",
-    "commander": "npm:commander@^14.0.0"
+    "commander": "npm:commander@^14.0.0",
+    "d3-delaunay": "npm:d3-delaunay@^6.0.4"
   }
 }

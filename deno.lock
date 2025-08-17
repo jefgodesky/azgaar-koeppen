@@ -14,7 +14,9 @@
     "jsr:@std/testing@*": "1.0.15",
     "jsr:@std/testing@^1.0.15": "1.0.15",
     "npm:chroma-js@^3.1.2": "3.1.2",
-    "npm:commander@14": "14.0.0"
+    "npm:commander@14": "14.0.0",
+    "npm:d3-delaunay@*": "6.0.4",
+    "npm:d3-delaunay@^6.0.4": "6.0.4"
   },
   "jsr": {
     "@std/assert@1.0.14": {
@@ -65,6 +67,21 @@
     },
     "commander@14.0.0": {
       "integrity": "sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA=="
+    },
+    "d3-delaunay@6.0.4": {
+      "integrity": "sha512-mdjtIZ1XLAM8bm/hx3WwjfHt6Sggek7qH043O8KEjDXN40xi3vx/6pYSVTwLjEgiXQTbvaouWKynLBiUZ6SK6A==",
+      "dependencies": [
+        "delaunator"
+      ]
+    },
+    "delaunator@5.0.1": {
+      "integrity": "sha512-8nvh+XBe96aCESrGOqMp/84b13H9cdKbG5P2ejQCh4d4sK9RL4371qou9drQjMhvnPmhWl5hnmqbEE0fXr9Xnw==",
+      "dependencies": [
+        "robust-predicates"
+      ]
+    },
+    "robust-predicates@3.0.2": {
+      "integrity": "sha512-IXgzBWvWQwE6PrDI05OvmXUIruQTcoMDzRsOd5CDvHCVLcLHMTSYvOK5Cm46kWqlV3yAbuSpBZdJ5oP5OUoStg=="
     }
   },
   "workspace": {
@@ -73,7 +90,8 @@
       "jsr:@std/expect@^1.0.17",
       "jsr:@std/testing@^1.0.15",
       "npm:chroma-js@^3.1.2",
-      "npm:commander@14"
+      "npm:commander@14",
+      "npm:d3-delaunay@^6.0.4"
     ]
   }
 }

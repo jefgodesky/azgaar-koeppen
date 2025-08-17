@@ -13,7 +13,8 @@
     "jsr:@std/path@^1.1.1": "1.1.1",
     "jsr:@std/testing@*": "1.0.15",
     "jsr:@std/testing@^1.0.15": "1.0.15",
-    "npm:chroma-js@^3.1.2": "3.1.2"
+    "npm:chroma-js@^3.1.2": "3.1.2",
+    "npm:commander@14": "14.0.0"
   },
   "jsr": {
     "@std/assert@1.0.14": {
@@ -61,6 +62,9 @@
   "npm": {
     "chroma-js@3.1.2": {
       "integrity": "sha512-IJnETTalXbsLx1eKEgx19d5L6SRM7cH4vINw/99p/M11HCuXGRWL+6YmCm7FWFGIo6dtWuQoQi1dc5yQ7ESIHg=="
+    },
+    "commander@14.0.0": {
+      "integrity": "sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA=="
     }
   },
   "workspace": {
@@ -68,7 +72,8 @@
       "jsr:@std/assert@1",
       "jsr:@std/expect@^1.0.17",
       "jsr:@std/testing@^1.0.15",
-      "npm:chroma-js@^3.1.2"
+      "npm:chroma-js@^3.1.2",
+      "npm:commander@14"
     ]
   }
 }

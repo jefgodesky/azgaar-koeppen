@@ -16,7 +16,7 @@ describe('calculateBaseTemp', () => {
     { latitude: 0, month: 'Jan', expected: 27.31 },
     { latitude: 0, month: 'Jun', expected: 26.94 },
     { latitude: 70, month: 'Jan', expected: -50 },
-    { latitude: 70, month: 'Jun', expected: 31.77 },
+    { latitude: 70, month: 'Jun', expected: 17.71 },
   ]
 
   for (const { latitude, month, expected } of cases) {

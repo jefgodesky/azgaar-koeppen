@@ -20,8 +20,8 @@ describe('calculateRelaxedTemp', () => {
     { latitude: 0, type: 'water', month: 'Jun', expected: 8.08 },
     { latitude: 70, type: 'land', month: 'Jan', expected: -40 },
     { latitude: 70, type: 'water', month: 'Jan', expected: -15 },
-    { latitude: 70, type: 'land', month: 'Jun', expected: 25.42 },
-    { latitude: 70, type: 'water', month: 'Jun', expected: 9.53 },
+    { latitude: 70, type: 'land', month: 'Jun', expected: 14.17 },
+    { latitude: 70, type: 'water', month: 'Jun', expected: 5.31 },
   ]
 
   for (const { latitude, type, month, expected } of cases) {

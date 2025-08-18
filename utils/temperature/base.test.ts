@@ -26,4 +26,12 @@ describe('calculateBaseTemp', () => {
       expect(actual).toBeCloseTo(expected)
     })
   }
+
+  it('is colder at higher elevations', () => {
+    const lowCell = createCell({ type: 'land', elevation: 0 })
+    const highCell = createCell({ type: 'land', elevation: 2000 })
+    const low = calculateBaseTemp(world, lowCell, 'Jun')
+    const high = calculateBaseTemp(world, highCell, 'Jun')
+    expect(high).toBeLessThan(low)
+  })
 })

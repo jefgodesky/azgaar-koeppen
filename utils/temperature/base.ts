@@ -32,7 +32,11 @@ const calculateBaseTemp = (world: World, cell: Cell, month: string | number): nu
 
   const k = (tempMax - tempMin) / Math.pow(insolMax, 0.25)
   const c = tempMin
-  const temp = k * Math.pow(Math.max(0, i), 0.25) + c
+  const seaLevel = k * Math.pow(Math.max(0, i), 0.25) + c
+
+  const elevation = cell.type === 'water' ? 0 : cell.elevation / 1000
+  const temp = seaLevel - (0.5 * elevation)
+
   return extremes
     ? clamp(temp, extremes[0], extremes[1])
     : temp

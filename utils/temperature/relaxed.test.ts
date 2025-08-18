@@ -14,13 +14,13 @@ describe('calculateRelaxedTemp', () => {
 
   const world = createWorld()
   const cases: TestCase[] = [
-    { latitude: 0, type: 'land', month: 'Jan', expected: 23.43 },
+    { latitude: 0, type: 'land', month: 'Jan', expected: 23.42 },
     { latitude: 0, type: 'water', month: 'Jan', expected: 8.79 },
-    { latitude: 0, type: 'land', month: 'Jun', expected: 23.13 },
+    { latitude: 0, type: 'land', month: 'Jun', expected: 23.12 },
     { latitude: 0, type: 'water', month: 'Jun', expected: 8.67 },
-    { latitude: 70, type: 'land', month: 'Jan', expected: -40 },
+    { latitude: 70, type: 'land', month: 'Jan', expected: -40.01 },
     { latitude: 70, type: 'water', month: 'Jan', expected: -15 },
-    { latitude: 70, type: 'land', month: 'Jun', expected: 9.39 },
+    { latitude: 70, type: 'land', month: 'Jun', expected: 9.38 },
     { latitude: 70, type: 'water', month: 'Jun', expected: 3.52 },
   ]
 

@@ -1,2 +1,6 @@
+# Hide generated files
+maps
+
 # Hide local configuration files
 .idea
+.DS_Store

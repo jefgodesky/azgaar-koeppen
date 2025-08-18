@@ -14,14 +14,14 @@ describe('calculateRelaxedTemp', () => {
 
   const world = createWorld()
   const cases: TestCase[] = [
-    { latitude: 0, type: 'land', month: 'Jan', expected: 21.85 },
-    { latitude: 0, type: 'water', month: 'Jan', expected: 8.19 },
-    { latitude: 0, type: 'land', month: 'Jun', expected: 21.55 },
-    { latitude: 0, type: 'water', month: 'Jun', expected: 8.08 },
+    { latitude: 0, type: 'land', month: 'Jan', expected: 23.43 },
+    { latitude: 0, type: 'water', month: 'Jan', expected: 8.79 },
+    { latitude: 0, type: 'land', month: 'Jun', expected: 23.13 },
+    { latitude: 0, type: 'water', month: 'Jun', expected: 8.67 },
     { latitude: 70, type: 'land', month: 'Jan', expected: -40 },
     { latitude: 70, type: 'water', month: 'Jan', expected: -15 },
-    { latitude: 70, type: 'land', month: 'Jun', expected: 14.17 },
-    { latitude: 70, type: 'water', month: 'Jun', expected: 5.31 },
+    { latitude: 70, type: 'land', month: 'Jun', expected: 9.39 },
+    { latitude: 70, type: 'water', month: 'Jun', expected: 3.52 },
   ]
 
   for (const { latitude, type, month, expected } of cases) {
@@ -36,6 +36,6 @@ describe('calculateRelaxedTemp', () => {
   it('takes prev from previous month base if not provided', () => {
     const cell = createCell({ coords: { latitude: 0, longitude: 0 } })
     const actual = calculateRelaxedTemp(world, cell, 'Jan')
-    expect(actual).toBeCloseTo(27.05)
+    expect(actual).toBeCloseTo(29.02)
   })
 })

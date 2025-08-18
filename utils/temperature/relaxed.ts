@@ -31,7 +31,13 @@ const calculateRelaxedTemp = (
   const p = prev ?? calculateBaseTemp(world, cell, getPrevMonth(world, month).name)
   const base = calculateBaseTemp(world, cell, month)
   const { water, land } = world.temperature.inertia
-  const inertia = cell.type === 'water' ? water : land
+  const baseInertia = cell.type === 'water' ? water : land
+
+  // Snow pack and ice caps reduce temperature changes.
+  const hasSnow = p <= -5
+  const warming = base > p
+  const inertia = hasSnow && warming ? baseInertia * 0.5 : baseInertia
+
   return p + (inertia * (base - p))
 }
 

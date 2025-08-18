@@ -27,7 +27,7 @@ const calculateBaseTemp = (world: World, cell: Cell, month: string | number): nu
   // Latitude efficiency (sun's coming in at an angle at higher latitudes)
   const latitude = degreesToRadians(cell.coords.latitude)
   const s = Math.sin(Math.abs(latitude))
-  const efficiency = Math.max(0, 1 - 0.6 * Math.pow(s, 2))
+  const efficiency = Math.max(0, 1 - 0.8 * Math.pow(s, 2))
   const i = Math.max(0, insolation * efficiency)
 
   const k = (tempMax - tempMin) / Math.pow(insolMax, 0.25)

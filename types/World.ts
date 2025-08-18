@@ -39,7 +39,7 @@ export const createWorld = (overrides?: Partial<World>): World => {
     secondsPerDay: 24 * 60 * 60,
     temperature: {
       insolation: [0, 420],
-      celsius: [-50, 28],
+      celsius: [-50, 30],
       extremes: [-60, 50],
       inertia: {
         land: 0.8,

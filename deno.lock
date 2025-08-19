@@ -16,7 +16,8 @@
     "npm:chroma-js@^3.1.2": "3.1.2",
     "npm:commander@14": "14.0.0",
     "npm:d3-delaunay@*": "6.0.4",
-    "npm:d3-delaunay@^6.0.4": "6.0.4"
+    "npm:d3-delaunay@^6.0.4": "6.0.4",
+    "npm:h3-js@^4.2.1": "4.2.1"
   },
   "jsr": {
     "@std/assert@1.0.14": {
@@ -80,6 +81,9 @@
         "robust-predicates"
       ]
     },
+    "h3-js@4.2.1": {
+      "integrity": "sha512-HYiUrq5qTRFqMuQu3jEHqxXLk1zsSJiby9Lja/k42wHjabZG7tN9rOuzT/PEFf+Wa7rsnHLMHRWIu0mgcJ0ewQ=="
+    },
     "robust-predicates@3.0.2": {
       "integrity": "sha512-IXgzBWvWQwE6PrDI05OvmXUIruQTcoMDzRsOd5CDvHCVLcLHMTSYvOK5Cm46kWqlV3yAbuSpBZdJ5oP5OUoStg=="
     }
@@ -91,7 +95,8 @@
       "jsr:@std/testing@^1.0.15",
       "npm:chroma-js@^3.1.2",
       "npm:commander@14",
-      "npm:d3-delaunay@^6.0.4"
+      "npm:d3-delaunay@^6.0.4",
+      "npm:h3-js@^4.2.1"
     ]
   }
 }

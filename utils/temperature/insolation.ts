@@ -1,23 +1,23 @@
 import  World from '../../types/World.ts'
-import type Cell from '../../types/Cell.ts'
+import type Hex from '../../types/Hex.ts'
 import getMonthMidpoint from '../calendar/month-mid.ts'
 import degreesToRadians from '../math/degrees-to-radians.ts'
 import calculateDeclination from './declination.ts'
 
 /**
  * Returns the daily-mean top-of-atmosphere (TOA) insolation for the
- * mid-point of the given month at the cell’s latitude.
+ * mid-point of the given month at the hexagon’s latitude.
  * @param {World} world - The world under consideration.
- * @param {Cell} cell - The cell under consideration.
+ * @param {Hex} hex - The hexagon under consideration.
  * @param {string | number} month - The month to calculate insolation for.
  * @returns = The daily-mean top-of-atmosphere (TOA) insolation for the
- *   mid-point of the given month at the cell's latitude in watts per square
+ *   mid-point of the given month at the hexagon's latitude in watts per square
  *   meter (W/m²).
  */
 
-const calculateInsolation =  (world: World, cell: Cell, month: string | number): number => {
+const calculateInsolation =  (world: World, hex: Hex, month: string | number): number => {
   const mid = getMonthMidpoint(world, month)
-  const latitude = degreesToRadians(cell.coords.latitude)
+  const latitude = degreesToRadians(hex.center.latitude)
   const declination = calculateDeclination(world, mid)
   const sunrise = -Math.tan(latitude) * Math.tan(declination)
   const h0 = sunrise >= 1 ? 0 : sunrise <= -1 ? Math.PI : Math.acos(sunrise)

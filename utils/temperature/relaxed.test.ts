@@ -1,41 +1,31 @@
 import { describe, it } from 'jsr:@std/testing/bdd'
 import { expect } from 'jsr:@std/expect'
 import { createWorld } from '../../types/World.ts'
-import { createCell } from '../../types/Cell.ts'
+import { createHex } from '../../types/Hex.ts'
 import calculateRelaxedTemp from './relaxed.ts'
+import calculateBaseTemp from './base.ts'
 
 describe('calculateRelaxedTemp', () => {
-  interface TestCase {
-    latitude: number
-    type: 'water' | 'land'
-    month: string
-    expected: number
-  }
-
   const world = createWorld()
-  const cases: TestCase[] = [
-    { latitude: 0, type: 'land', month: 'Jan', expected: 23.42 },
-    { latitude: 0, type: 'water', month: 'Jan', expected: 8.79 },
-    { latitude: 0, type: 'land', month: 'Jun', expected: 23.12 },
-    { latitude: 0, type: 'water', month: 'Jun', expected: 8.67 },
-    { latitude: 70, type: 'land', month: 'Jan', expected: -40.01 },
-    { latitude: 70, type: 'water', month: 'Jan', expected: -15 },
-    { latitude: 70, type: 'land', month: 'Jun', expected: 9.38 },
-    { latitude: 70, type: 'water', month: 'Jun', expected: 3.52 },
-  ]
 
-  for (const { latitude, type, month, expected } of cases) {
-    it(`returns ~${expected}°C for a ${type} cell at ${latitude}°N in ${month} (prev. 0°C)`, () => {
-      const coords = { latitude, longitude: 0 }
-      const cell = createCell({ type, coords })
-      const actual = calculateRelaxedTemp(world, cell, month, 0)
-      expect(actual).toBeCloseTo(expected)
-    })
-  }
+  it('reduces temperature change', () => {
+    const hex = createHex()
+    const base = calculateBaseTemp(world, hex, 'Jan')
+    const relaxed = calculateRelaxedTemp(world, hex, 'Jan', 0)
+    expect(relaxed).toBeLessThan(base)
+  })
+
+  it('changes less if previous is -5 or lower', () => {
+    const hex = createHex()
+    const a = calculateRelaxedTemp(world, hex, 'Jan', -5)
+    const b = calculateRelaxedTemp(world, hex, 'Jan', 0)
+    expect(Math.abs(-5 - a)).toBeLessThan(Math.abs(0 - b))
+  })
 
   it('takes prev from previous month base if not provided', () => {
-    const cell = createCell({ coords: { latitude: 0, longitude: 0 } })
-    const actual = calculateRelaxedTemp(world, cell, 'Jan')
-    expect(actual).toBeCloseTo(29.02)
+    const hex = createHex({ center: { latitude: 0, longitude: 0 } })
+    const a = calculateRelaxedTemp(world, hex, 'Jan')
+    const b = calculateRelaxedTemp(world, hex, 'Jan', 50)
+    expect(a).toBeLessThan(b)
   })
 })

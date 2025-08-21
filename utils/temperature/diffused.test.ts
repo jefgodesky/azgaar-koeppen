@@ -1,44 +1,47 @@
 import { describe, it } from 'jsr:@std/testing/bdd'
 import { expect } from 'jsr:@std/expect'
-import Cell, { createTinyWorld } from '../../types/Cell.ts'
+import Hex, { createHexes } from '../../types/Hex.ts'
 import getAverage from '../math/avg.ts'
+import isWater from '../is-water.ts'
 import calculateDiffusedTemps from './diffused.ts'
 
 describe('calculateDiffusedTemps', () => {
-  const cells = createTinyWorld()
-  const elevations = [0, 0, 0, 0, 0, 0, 5, 0, 5, 2000]
-  elevations.forEach((elevation: number, index: number) => {
-    if (!cells[index]) return
-    cells[index].elevation = elevation
-    cells[index].type = elevation === 0 ? 'water' : 'land'
+  const hexes = createHexes()
+  const keys = Object.keys(hexes)
+  const elevations = [0, 0, 0, 0, 5, 5, 2000]
+  const before: Map<string, number> = new Map()
+
+  keys.entries().forEach(([index, id]) => {
+    before.set(id, 10)
+    const l = elevations[index]
+    hexes[id].elevation = [l, l]
+    hexes[id].type = l === 0 ? [1,0] : [0,1]
   })
 
-  const before: Map<number, number> = new Map()
-  Object.keys(cells)
-    .map(key => parseInt(key))
-    .forEach(key => before.set(key, 10))
-
   it('keeps a uniform field unchanged (fixed point)', () => {
-    const actual = calculateDiffusedTemps(cells, before)
-    for (const { id } of Object.values(cells)) {
+    const actual = calculateDiffusedTemps(hexes, before)
+    for (const { id } of Object.values(hexes)) {
       expect(actual.get(id)).toBeCloseTo(before.get(id) ?? 0)
     }
   })
 
   it('smooths the field', () => {
-    Object.keys(cells)
-      .map(key => parseInt(key))
-      .forEach(key => before.set(key, key * 5))
-    const actual = calculateDiffusedTemps(cells, before)
-    expect(actual.get(1)).toBeGreaterThan(5)
+    const keys = Object.keys(hexes)
+    for (const [index, id] of keys.entries()) {
+      before.set(id, index * 5)
+    }
+
+    const actual = calculateDiffusedTemps(hexes, before)
+    expect(actual.get(keys[keys.length - 1])).toBeLessThan(7 * 5)
   })
 
   it('changes less over water', () => {
-    const actual = calculateDiffusedTemps(cells, before)
+    const actual = calculateDiffusedTemps(hexes, before)
 
     const getDeltas = (type: 'land' | 'water'): number[] => {
-      const c = Object.values(cells).filter(cell => cell.type === type)
-      return c.map((cell: Cell) => Math.abs(actual.get(cell.id)! - before.get(cell.id)!))
+      const h = Object.values(hexes)
+        .filter(hex => (type === 'water' && isWater(hex)) || (type === 'land' && !isWater(hex)))
+      return h.map((hex: Hex) => Math.abs(actual.get(hex.id)! - before.get(hex.id)!))
     }
 
     const land = getAverage(...getDeltas('land'))

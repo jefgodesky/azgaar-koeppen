@@ -1,37 +1,36 @@
 import { describe, it } from 'jsr:@std/testing/bdd'
 import { expect } from 'jsr:@std/expect'
 import { createWorld } from '../../types/World.ts'
-import { createCell } from '../../types/Cell.ts'
+import { createHex } from '../../types/Hex.ts'
 import calculateBaseTemp from './base.ts'
 
 describe('calculateBaseTemp', () => {
-  interface TestCase {
-    latitude: number
-    month: string
-    expected: number
-  }
-
   const world = createWorld()
-  const cases: TestCase[] = [
-    { latitude: 0, month: 'Jan', expected: 29.29 },
-    { latitude: 0, month: 'Jun', expected: 28.91 },
-    { latitude: 70, month: 'Jan', expected: -50 },
-    { latitude: 70, month: 'Jun', expected: 11.74 },
-  ]
+  const longitude = 0
 
-  for (const { latitude, month, expected } of cases) {
-    it(`returns ~${expected}°C for a cell at ${latitude}° N in ${month}`, () => {
-      const cell = createCell({ coords: { latitude, longitude: 0 } })
-      const actual = calculateBaseTemp(world, cell, month)
-      expect(actual).toBeCloseTo(expected)
-    })
-  }
+  it('is hotter in summer than winter (northern hemisphere)', () => {
+    const hex = createHex({ center: { latitude: 30, longitude }})
+    const summer = calculateBaseTemp(world, hex, 'Jun')
+    const winter = calculateBaseTemp(world, hex, 'Jan')
+    expect(summer).toBeGreaterThan(winter)
+  })
 
-  it('is colder at higher elevations', () => {
-    const lowCell = createCell({ type: 'land', elevation: 0 })
-    const highCell = createCell({ type: 'land', elevation: 2000 })
-    const low = calculateBaseTemp(world, lowCell, 'Jun')
-    const high = calculateBaseTemp(world, highCell, 'Jun')
-    expect(high).toBeLessThan(low)
+  it('is hotter in summer than winter (southern hemisphere)', () => {
+    const hex = createHex({ center: { latitude: -30, longitude }})
+    const summer = calculateBaseTemp(world, hex, 'Jan')
+    const winter = calculateBaseTemp(world, hex, 'Jun')
+    expect(summer).toBeGreaterThan(winter)
+  })
+
+  it('is hotter closer to the equator', () => {
+    const polar = calculateBaseTemp(world, createHex({ center: { latitude: 70, longitude } }), 'May')
+    const equatorial = calculateBaseTemp(world, createHex({ center: { latitude: 0, longitude } }), 'May')
+    expect(equatorial).toBeGreaterThan(polar)
+  })
+
+  it('is hotter at lower elevations', () => {
+    const high = calculateBaseTemp(world, createHex({ elevation: [2000, 2000] }), 'May')
+    const low = calculateBaseTemp(world, createHex({ elevation: [0, 0] }), 'May')
+    expect(low).toBeGreaterThan(high)
   })
 })

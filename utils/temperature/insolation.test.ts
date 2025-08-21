@@ -1,7 +1,7 @@
 import { describe, it } from 'jsr:@std/testing/bdd'
 import { expect } from 'jsr:@std/expect'
 import { createWorld } from '../../types/World.ts'
-import { createCell } from '../../types/Cell.ts'
+import { createHex } from '../../types/Hex.ts'
 import calculateInsolation from './insolation.ts'
 
 describe('calculateInsolation', () => {
@@ -21,8 +21,8 @@ describe('calculateInsolation', () => {
 
   for (const { latitude, month, expected } of cases) {
     it(`returns ~${expected} W/m² daily mean TOA for a cell at ${latitude}° N latitude in ${month}`, () => {
-      const cell = createCell({ coords: { latitude, longitude: 0 } })
-      const actual = calculateInsolation(world, cell, month)
+      const hex = createHex({ center: { latitude, longitude: 0 } })
+      const actual = calculateInsolation(world, hex, month)
       expect(actual).toBeCloseTo(expected)
     })
   }

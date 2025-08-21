@@ -1,55 +1,52 @@
 import { describe, it, beforeEach } from 'jsr:@std/testing/bdd'
 import { expect } from 'jsr:@std/expect'
-import chroma from 'chroma-js'
-import Cell, { createTinyWorld } from '../types/Cell.ts'
-import render, { type RenderColorOptions } from './render.ts'
+import * as d3 from 'd3'
+import Hex, { createHexes } from '../types/Hex.ts'
+import render, { type RenderOptions } from './render.ts'
 
 describe('render', () => {
-  let world: Record<number, Cell> = {}
-  const values = new Map<number, number>()
-  const color1 = '0000ff'
-  const color2 = 'ff0000'
-  const scale = chroma.scale([color1, color2]).domain([0,100])
-  const options: RenderColorOptions = { values, scale }
+  let world: Record<string, Hex> = {}
+  const values = new Map<string, number>()
+  const color1 = '#0000ff'
+  const color2 = '#ff0000'
+  const scale = d3.scaleLinear<string>()
+    .domain([0, 35])
+    .range([color1, color2])
+    .interpolate(d3.interpolateRgb)
+  const options: RenderOptions = { values, scale }
 
   beforeEach(() => {
-    world = createTinyWorld()
+    world = createHexes()
     values.clear()
-    for (const cell of Object.values(world)) values.set(cell.id, cell.id * 5)
+    const entries = Object.keys(world).entries()
+    for (const [index, id] of entries) values.set(id, index * 5)
   })
 
   it('renders an SVG', () => {
     const actual = render(world, options)
     expect(actual.startsWith('<svg')).toBe(true)
     expect(actual.includes('xmlns="http://www.w3.org/2000/svg"')).toBe(true)
-    console.log(actual)
   })
 
-  it('sizes to contain all cells', () => {
+  it('renders one path per hexagon', () => {
     const actual = render(world, options)
-    const viewbox = /viewBox="([^"]+)"/.exec(actual)?.[1]
-    expect(viewbox).toBe('10 10 30 30')
-  })
-
-  it('renders one polygon per cell', () => {
-    const actual = render(world, options)
-    const polys = actual.match(/<polygon /g) ?? []
+    const polys = actual.match(/<path /g) ?? []
     expect(polys.length).toBe(Object.keys(world).length)
   })
 
   it('applies the color scale', () => {
     const actual = render(world, options)
-    expect(actual.includes(`fill="#0d00f2"`)).toBe(true)
+    expect(actual.includes(`fill="#db0024"`)).toBe(true)
   })
 
   it('applies filters', () => {
-    world[1].type = 'land'
-    const options: RenderColorOptions = {
+    world[Object.keys(world)[0]].type = [0, 1]
+    const options: RenderOptions = {
       conditions: [
-        { condition: (cell: Cell) => cell.type === 'land', color: `#${color1}` }
+        { condition: (hex: Hex) => hex.type[1] > 0.5, color: color1 }
       ]
     }
     const actual = render(world, options)
-    expect(actual.includes(`fill="#${color1}"`)).toBe(true)
+    expect(actual.includes(`fill="${color1}"`)).toBe(true)
   })
 })

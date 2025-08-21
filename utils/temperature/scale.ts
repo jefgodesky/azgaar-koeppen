@@ -1,4 +1,4 @@
-import chroma from 'chroma-js'
+import * as d3 from 'd3'
 
 const data: Array<{ color: string, c: number }> = [
   { color: '7c7c7c', c: -60 },
@@ -11,6 +11,7 @@ const data: Array<{ color: string, c: number }> = [
   { color: '4a0200', c: 50 }
 ]
 
-export default chroma
-  .scale(data.map(stop => stop.color))
+export default d3.scaleLinear<string>()
   .domain(data.map(stop => stop.c))
+  .range(data.map(stop => stop.color))
+  .interpolate(d3.interpolateRgb)

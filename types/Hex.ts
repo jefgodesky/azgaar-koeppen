@@ -1,5 +1,9 @@
+import { cellToLatLng } from 'h3-js'
+import type Coords from './Coords.ts'
+
 interface Hex {
   id: string
+  center: Coords,
   type: [number, number]
   elevation: [number, number]
   climate: {
@@ -10,8 +14,16 @@ interface Hex {
 }
 
 export const createHex = (overrides?: Partial<Hex>): Hex => {
+  const id = '82754ffffffffff'
+  let center = overrides?.center
+  if (!center) {
+    const [latitude, longitude] = cellToLatLng(id)
+    center = { latitude, longitude }
+  }
+
   return {
-    id: '85283473fffffff',
+    id,
+    center,
     type: [1, 0],
     elevation: [0, 0],
     climate: {
@@ -24,7 +36,7 @@ export const createHex = (overrides?: Partial<Hex>): Hex => {
 }
 
 export const createHexes = (): Record<string, Hex> => {
-  const keys = [0, 1, 2, 3, 4, 5, 6].map(n => `83000${n}fffffffff`)
+  const keys = ['8', '9', 'a', 'b', 'c', 'd', 'e'].map(n => `83754${n}fffffffff`)
   const hexes: Record<string, Hex> = {}
   for (const id of keys) {
     hexes[id] = createHex({ id })

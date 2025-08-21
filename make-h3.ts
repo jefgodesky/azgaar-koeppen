@@ -1,6 +1,6 @@
 import { program } from 'commander'
 import { area, intersect, featureCollection, bbox } from '@turf/turf'
-import { getRes0Cells, cellToChildren } from 'h3-js'
+import { getRes0Cells, cellToChildren, cellToLatLng } from 'h3-js'
 import { roundToFixed, roundToPrecision } from '@codemonument/simple-rounding'
 
 import type { FeatureCollection, Polygon, MultiPolygon } from 'geojson'
@@ -42,9 +42,13 @@ const makeH3 = (source: string): Record<string, Hex> => {
 
     land = roundToPrecision(land / hexa, 2)
     const water = roundToPrecision(1 - land, 2)
+    const coords = cellToLatLng(id)
+    const latitude = roundToPrecision(coords[0], 4)
+    const longitude = roundToPrecision(coords[1], 4)
 
     hexes[id] = createHex({
       id,
+      center: { latitude, longitude },
       type: [water, land],
       elevation: el
     })

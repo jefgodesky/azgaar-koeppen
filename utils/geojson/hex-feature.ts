@@ -10,7 +10,7 @@ import { cellToBoundary } from 'npm:h3-js'
  */
 
 const getHexFeature = (id: string): Feature<Polygon> => {
-  const ring = cellToBoundary(id, true)
+  const ring = cellToBoundary(id, true).reverse()
   const first = ring[0].join(',')
   const last = ring[ring.length - 1].join(',')
   const closed: Position[] = first === last ? ring : [...ring, ring[0]]

@@ -1,6 +1,6 @@
 import { describe, it } from 'jsr:@std/testing/bdd'
 import { expect } from 'jsr:@std/expect'
-import { area } from '@turf/turf'
+import { area, booleanClockwise } from '@turf/turf'
 import getHexFeature from './hex-feature.ts'
 
 describe('getHexFeature', () => {
@@ -38,5 +38,10 @@ describe('getHexFeature', () => {
 
   it('has positive area', () => {
     expect(area(feature) > 0).toEqual(true)
+  })
+
+  it('returns a clockwise polygon', () => {
+    const unclosed = feature.geometry.coordinates[0].slice(0, -1)
+    expect(booleanClockwise(unclosed)).toBe(true)
   })
 })

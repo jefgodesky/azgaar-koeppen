@@ -1,8 +1,8 @@
 import { describe, it, beforeEach } from 'jsr:@std/testing/bdd'
 import { expect } from 'jsr:@std/expect'
 import * as d3 from 'd3'
-import Hex, { createHexes } from '../types/Hex.ts'
-import render, { type RenderOptions } from './render.ts'
+import Hex, { createHexes } from '../../types/Hex.ts'
+import render, { type RenderOptions } from './svg.ts'
 
 describe('render', () => {
   let world: Record<string, Hex> = {}

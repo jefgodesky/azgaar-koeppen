@@ -9,7 +9,7 @@ import calculateBaseTemp from './utils/temperature/base.ts'
 import calculateRelaxedTemp from './utils/temperature/relaxed.ts'
 import calculateDiffusedTemps from './utils/temperature/diffused.ts'
 import updateConsole from './utils/update-console.ts'
-import render from './utils/render.ts'
+import renderGIF from './utils/render/gif.ts'
 
 import world from './world.ts'
 import scale from './utils/temperature/scale.ts'
@@ -63,18 +63,7 @@ if (import.meta.main) {
 
   const path = './maps/preliminary'
   Deno.mkdirSync(path, { recursive: true })
-  const arr = Object.values(data)
-  const months = getMonthNames(world)
-  for (const month of months) {
-    const filename = getMonthFilename(world, month)
-    const values = new Map<string, number>()
-    for (const hex of arr) {
-      values.set(hex.id, hex.climate.temperatures[month])
-    }
-
-    const svg = render(data, { values, scale })
-    Deno.writeTextFileSync(`${path}/${filename}.svg`, svg)
-  }
+  renderGIF(world, data, `${path}/monthly.gif`)
 
   console.log(`Saved maps to ${path}`)
 }

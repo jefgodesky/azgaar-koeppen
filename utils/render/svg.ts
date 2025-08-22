@@ -1,8 +1,8 @@
 import * as d3 from 'd3'
 import type { Feature, Polygon } from 'geojson'
-import type Hex from '../types/Hex.ts'
-import type HexFilter from '../types/HexFilter.ts'
-import getHexFeature from './geojson/hex-feature.ts'
+import type Hex from '../../types/Hex.ts'
+import type HexFilter from '../../types/HexFilter.ts'
+import getHexFeature from '../geojson/hex-feature.ts'
 
 export interface RenderOptions {
   conditions?: Array<{ condition: HexFilter, color: string }>

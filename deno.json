@@ -1,7 +1,7 @@
 {
   "tasks": {
     "extract": "deno run --allow-read --allow-write extract.ts",
-    "prelim-temps": "deno run --allow-read --allow-write preliminary-temps.ts",
+    "prelim-temps": "deno run --allow-read --allow-write --allow-ffi preliminary-temps.ts",
     "test": "deno test"
   },
   "imports": {

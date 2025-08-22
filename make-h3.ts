@@ -27,8 +27,8 @@ const makeH3 = (source: string): Record<string, Hex> => {
     let land = 0
     let el: [number, number] = [Number.NaN, Number.NaN]
 
-    for (const cell of cells) {
-      if (!doBBoxesOverlap(box, cell.bbox)) continue
+    const overlapping = cells.filter(cell => doBBoxesOverlap(box, cell.bbox))
+    for (const cell of overlapping) {
       const coll: FeatureCollection<Polygon | MultiPolygon> = featureCollection([hex, cell.feature])
       const overlap = intersect(coll)
       const a = overlap ? area(overlap) : 0
@@ -39,6 +39,9 @@ const makeH3 = (source: string): Record<string, Hex> => {
 
       el = setElevation(elevation, el)
     }
+
+    if (isNaN(el[0])) el[0] = 0
+    if (isNaN(el[1])) el[1] = 0
 
     land = roundToPrecision(land / hexa, 2)
     const water = roundToPrecision(1 - land, 2)

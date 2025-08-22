@@ -1,8 +1,8 @@
 import { program } from 'commander'
 
 import type World from './types/World.ts'
-import type Cell from './types/Cell.ts'
-import extract from './extract.ts'
+import type Hex from './types/Hex.ts'
+import makeH3 from './make-h3.ts'
 import getMonthFilename from './utils/calendar/month-filename.ts'
 import getMonthNames from './utils/calendar/month-names.ts'
 import calculateBaseTemp from './utils/temperature/base.ts'
@@ -12,33 +12,33 @@ import updateConsole from './utils/update-console.ts'
 import render from './utils/render.ts'
 
 import world from './world.ts'
-import tempScale from './utils/temperature/scale.ts'
+import scale from './utils/temperature/scale.ts'
 
-const calculatePreliminaryTemps = (world: World, cells: Record<number, Cell>, years: number = 250): Record<number, Cell> => {
-  const arr = Object.values(cells)
+const calculatePreliminaryTemps = (world: World, hexes: Record<string, Hex>, years: number = 250): Record<string, Hex> => {
+  const arr = Object.values(hexes)
   const months = getMonthNames(world)
-  const temps = new Map<number, number>()
+  const temps = new Map<string, number>()
 
   for (let y = 1; y <= years; y++) {
     updateConsole(`Calculating preliminary temperatures for year ${y}/${years}...`)
 
     for (const month of months) {
-      const relaxed = new Map<number, number>()
-      for (const cell of arr) {
-        const prev = temps.get(cell.id) ?? calculateBaseTemp(world, cell, month)
-        const r = calculateRelaxedTemp(world, cell, month, prev)
-        relaxed.set(cell.id, r)
+      const relaxed = new Map<string, number>()
+      for (const hex of arr) {
+        const prev = temps.get(hex.id) ?? calculateBaseTemp(world, hex, month)
+        const r = calculateRelaxedTemp(world, hex, month, prev)
+        relaxed.set(hex.id, r)
       }
 
-      const diffused = calculateDiffusedTemps(cells, relaxed)
+      const diffused = calculateDiffusedTemps(hexes, relaxed)
       for (const [id, temp] of diffused.entries()) {
         temps.set(id, temp)
-        if (y === years) cells[id].climate.temperatures[month] = temp
+        if (y === years) hexes[id].climate.temperatures[month] = temp
       }
     }
   }
 
-  return cells
+  return hexes
 }
 
 if (import.meta.main) {
@@ -53,22 +53,28 @@ if (import.meta.main) {
 
   program.parse(Deno.args, { from: 'user' })
   const { source, dest, years, maps } = program.opts()
-  const data = calculatePreliminaryTemps(world, extract(source), years)
+  const hexes = makeH3(source)
+  console.log(`\nExtracted ${Object.keys(hexes).length.toLocaleString()} H3 hexagons (resolution 3)`)
+  const data = calculatePreliminaryTemps(world, hexes, years)
   Deno.writeTextFileSync(dest, JSON.stringify(data))
+  console.log(`\nSaved data to ${dest}`)
 
   if (!maps) Deno.exit(0)
 
   const path = './maps/preliminary'
   Deno.mkdirSync(path, { recursive: true })
-  const cells = Object.values(data)
+  const arr = Object.values(data)
   const months = getMonthNames(world)
   for (const month of months) {
     const filename = getMonthFilename(world, month)
-    const temps = new Map<number, number>()
-    for (const cell of cells) {
-      temps.set(cell.id, cell.climate.temperatures[month])
+    const values = new Map<string, number>()
+    for (const hex of arr) {
+      values.set(hex.id, hex.climate.temperatures[month])
     }
-    const svg = render(data, { values: temps, scale: tempScale })
+
+    const svg = render(data, { values, scale })
     Deno.writeTextFileSync(`${path}/${filename}.svg`, svg)
   }
+
+  console.log(`Saved maps to ${path}`)
 }

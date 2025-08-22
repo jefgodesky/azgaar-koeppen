@@ -77,7 +77,7 @@ const renderSVG = (
     type: 'FeatureCollection',
     features: Array.from(features.values())
   } as GeoJSON.FeatureCollection
-  const projection = d3.geoMercator()
+  const projection = d3.geoEquirectangular()
     .fitExtent([[0, 0], [w, h]], coll)
   const generator = d3.geoPath()
     .projection(projection)

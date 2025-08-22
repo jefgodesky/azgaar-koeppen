@@ -33,7 +33,7 @@ const calculateBaseTemp = (world: World, hex: Hex, month: string | number): numb
   const k = (tempMax - tempMin) / Math.pow(insolMax, 0.25)
   const c = tempMin
   const seaLevel = k * Math.pow(Math.max(0, i), 0.25) + c
-  const temp = seaLevel - (0.5 * Math.max(...hex.elevation))
+  const temp = seaLevel - (0.5 * (Math.max(...hex.elevation) / 1000))
 
   return extremes
     ? clamp(temp, extremes[0], extremes[1])

@@ -16,6 +16,7 @@
     "commander": "npm:commander@^14.0.0",
     "d3": "npm:d3@^7.9.0",
     "d3-delaunay": "npm:d3-delaunay@^6.0.4",
+    "fast-png": "npm:fast-png@^7.0.1",
     "geojson": "npm:geojson@^0.5.0",
     "gifenc": "npm:gifenc@^1.0.3",
     "h3-js": "npm:h3-js@^4.2.1"

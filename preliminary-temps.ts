@@ -3,13 +3,14 @@ import { program } from 'commander'
 import type World from './types/World.ts'
 import type Hex from './types/Hex.ts'
 import extract from './extract.ts'
-import getMonthFilename from './utils/calendar/month-filename.ts'
+import getAverage from './utils/math/avg.ts'
 import getMonthNames from './utils/calendar/month-names.ts'
 import calculateBaseTemp from './utils/temperature/base.ts'
 import calculateRelaxedTemp from './utils/temperature/relaxed.ts'
 import calculateDiffusedTemps from './utils/temperature/diffused.ts'
 import updateConsole from './utils/update-console.ts'
 import renderGIF from './utils/render/gif.ts'
+import renderSVG from "./utils/render/svg.ts"
 
 import world from './world.ts'
 import scale from './utils/temperature/scale.ts'
@@ -64,6 +65,16 @@ if (import.meta.main) {
   const path = './maps/preliminary'
   Deno.mkdirSync(path, { recursive: true })
   renderGIF(world, data, `${path}/monthly.gif`)
+
+  const arr = Object.values(data)
+  const values = new Map<string, number>()
+  for (const { id, climate } of arr) {
+    const monthly = Object.values(climate.temperatures)
+    values.set(id, getAverage(...monthly))
+  }
+
+  const svg = renderSVG(data, { scale, values })
+  Deno.writeTextFileSync(`${path}/annual.svg`, svg)
 
   console.log(`Saved maps to ${path}`)
 }

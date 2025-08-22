@@ -25,6 +25,8 @@
     "npm:d3-delaunay@^6.0.4": "6.0.4",
     "npm:d3@^7.9.0": "7.9.0_d3-selection@3.0.0",
     "npm:geojson@0.5": "0.5.0",
+    "npm:gifenc@*": "1.0.3",
+    "npm:gifenc@^1.0.3": "1.0.3",
     "npm:h3-js@*": "4.2.1",
     "npm:h3-js@^4.2.1": "4.2.1"
   },
@@ -1924,6 +1926,9 @@
     "geojson@0.5.0": {
       "integrity": "sha512-/Bx5lEn+qRF4TfQ5aLu6NH+UKtvIv7Lhc487y/c8BdludrCTpiWf9wyI0RTyqg49MFefIAvFDuEi5Dfd/zgNxQ=="
     },
+    "gifenc@1.0.3": {
+      "integrity": "sha512-xdr6AdrfGBcfzncONUOlXMBuc5wJDtOueE3c5rdG0oNgtINLD+f2iFZltrBRZYzACRbKr+mSVU/x98zv2u3jmw=="
+    },
     "h3-js@4.2.1": {
       "integrity": "sha512-HYiUrq5qTRFqMuQu3jEHqxXLk1zsSJiby9Lja/k42wHjabZG7tN9rOuzT/PEFf+Wa7rsnHLMHRWIu0mgcJ0ewQ=="
     },
@@ -2035,6 +2040,7 @@
       "npm:d3-delaunay@^6.0.4",
       "npm:d3@^7.9.0",
       "npm:geojson@0.5",
+      "npm:gifenc@^1.0.3",
       "npm:h3-js@^4.2.1"
     ]
   }

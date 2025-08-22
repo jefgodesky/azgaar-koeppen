@@ -1,7 +1,6 @@
 {
   "tasks": {
     "extract": "deno run --allow-read --allow-write extract.ts",
-    "makeH3": "deno run --allow-read --allow-write make-h3.ts",
     "prelim-temps": "deno run --allow-read --allow-write preliminary-temps.ts",
     "test": "deno test"
   },

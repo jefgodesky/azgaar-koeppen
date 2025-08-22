@@ -2,7 +2,7 @@ import { program } from 'commander'
 
 import type World from './types/World.ts'
 import type Hex from './types/Hex.ts'
-import makeH3 from './make-h3.ts'
+import extract from './extract.ts'
 import getMonthFilename from './utils/calendar/month-filename.ts'
 import getMonthNames from './utils/calendar/month-names.ts'
 import calculateBaseTemp from './utils/temperature/base.ts'
@@ -53,7 +53,7 @@ if (import.meta.main) {
 
   program.parse(Deno.args, { from: 'user' })
   const { source, dest, years, maps } = program.opts()
-  const hexes = makeH3(source)
+  const hexes = extract(source)
   console.log(`\nExtracted ${Object.keys(hexes).length.toLocaleString()} H3 hexagons (resolution 3)`)
   const data = calculatePreliminaryTemps(world, hexes, years)
   Deno.writeTextFileSync(dest, JSON.stringify(data))

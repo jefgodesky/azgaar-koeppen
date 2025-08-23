@@ -10,6 +10,7 @@ interface Hex {
   climate: {
     classification: string
     temperatures: Record<string, number>
+    pressure: Record<string, number>
     winds: Record<string, Wind>
     precipitation: Record<string, number>
   }
@@ -31,6 +32,7 @@ export const createHex = (overrides?: Partial<Hex>): Hex => {
     climate: {
       classification: '-',
       temperatures: {},
+      pressure: {},
       winds: {},
       precipitation: {}
     },

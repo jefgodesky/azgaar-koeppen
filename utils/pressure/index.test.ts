@@ -3,7 +3,7 @@ import { expect } from 'jsr:@std/expect'
 import { createWorld } from '../../types/World.ts'
 import Hex, { createHex } from '../../types/Hex.ts'
 import getMonthNames from '../calendar/month-names.ts'
-import calculatePressure, { SEA_LEVEL_PRESSURE } from './pressure.ts'
+import calculatePressure, { SEA_LEVEL_PRESSURE } from './index.ts'
 
 describe('calculatePressure', () => {
   const world = createWorld()
@@ -25,12 +25,6 @@ describe('calculatePressure', () => {
     const hex = createTestHex([1000, 1000])
     const actual = calculatePressure(world, hex, 'Jan')
     expect(actual).toBeLessThan(SEA_LEVEL_PRESSURE)
-  })
-
-  it('increases below sea level', () => {
-    const hex = createTestHex([-1000, -1000])
-    const actual = calculatePressure(world, hex, 'Jan')
-    expect(actual).toBeGreaterThan(SEA_LEVEL_PRESSURE)
   })
 
   it('applies thermal low', () => {

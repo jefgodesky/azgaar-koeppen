@@ -20,7 +20,7 @@ const EXP = 5.25588
 
 const calculatePressure = (world: World, hex: Hex, month: string | number): number => {
   const { name: m } = getMonth(world, month)
-  const elevation = getAverage(...hex.elevation)
+  const elevation = Math.max(0, getAverage(...hex.elevation))
   const bracket = Math.max(1 - A * elevation, 1e-6)
   const base = SEA_LEVEL_PRESSURE * Math.pow(bracket, EXP)
   const temp = hex.climate.temperatures[m]

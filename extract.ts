@@ -10,6 +10,7 @@ import doBBoxesOverlap from './utils/geojson/bbox-overlap.ts'
 import indexCells from './utils/geojson/index-cells.ts'
 import hexFeature from './utils/geojson/hex-feature.ts'
 import setElevation from './utils/elevation.ts'
+import findContinentality from './utils/continentality.ts'
 import updateConsole from './utils/update-console.ts'
 
 const extract = (source: string): Record<string, Hex> => {
@@ -57,6 +58,7 @@ const extract = (source: string): Record<string, Hex> => {
     })
   }
 
+  findContinentality(hexes)
   return hexes
 }
 

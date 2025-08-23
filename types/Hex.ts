@@ -1,5 +1,6 @@
 import { cellToLatLng } from 'h3-js'
 import type Coords from './Coords.ts'
+import type Wind from './Wind.ts'
 
 interface Hex {
   id: string
@@ -9,6 +10,7 @@ interface Hex {
   climate: {
     classification: string
     temperatures: Record<string, number>
+    winds: Record<string, Wind>
     precipitation: Record<string, number>
   }
 }
@@ -29,6 +31,7 @@ export const createHex = (overrides?: Partial<Hex>): Hex => {
     climate: {
       classification: '-',
       temperatures: {},
+      winds: {},
       precipitation: {}
     },
     ...overrides

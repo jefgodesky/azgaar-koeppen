@@ -1,4 +1,5 @@
 import { program } from 'commander'
+import { roundToPrecision } from '@codemonument/simple-rounding'
 
 import type World from './types/World.ts'
 import type Hex from './types/Hex.ts'
@@ -42,7 +43,7 @@ const calculatePreliminaryTemps = (
       const diffused = calculateDiffusedTemps(hexes, relaxed)
       for (const [id, temp] of diffused.entries()) {
         temps.set(id, temp)
-        if (y === years) hexes[id].climate.temperatures[month] = temp
+        if (y === years) hexes[id].climate.temperatures[month] = roundToPrecision(temp, 2)
       }
     }
   }

@@ -5,18 +5,28 @@ import type Hex from '../../types/Hex.ts'
 import type World from '../../types/World.ts'
 import getMonthNames from '../calendar/month-names.ts'
 import renderSVG from './svg.ts'
-import scale from '../temperature/scale.ts'
+import tempScale from '../temperature/scale.ts'
+
+type Key = 'temperature' | 'pressure'
 
 const renderGIF = (
   world: World,
   data: Record<string, Hex>,
-  dest: string
+  dest: string,
+  key: Key = 'temperature',
+  scale: typeof tempScale = tempScale
 ): void => {
   const arr = Object.values(data)
   const months = getMonthNames(world)
   const frames = months.map(month => {
     const values = new Map<string, number>()
-    for (const hex of arr) values.set(hex.id, hex.climate.temperatures[month])
+    for (const hex of arr) {
+      const vals: Record<Key, number> = {
+        temperature: hex.climate.temperatures[month],
+        pressure: hex.climate.pressure[month]
+      }
+      values.set(hex.id, vals[key])
+    }
     return renderSVG(data, { values, scale })
   })
 

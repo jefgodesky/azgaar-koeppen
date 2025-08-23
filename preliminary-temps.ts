@@ -15,7 +15,15 @@ import renderSVG from "./utils/render/svg.ts"
 import world from './world.ts'
 import scale from './utils/temperature/scale.ts'
 
-const calculatePreliminaryTemps = (world: World, hexes: Record<string, Hex>, years: number = 250): Record<string, Hex> => {
+const calculatePreliminaryTemps = (
+  source: string,
+  world: World,
+  years: number = 250,
+  maps: boolean = true
+): Record<string, Hex> => {
+  const hexes = extract(source)
+  console.log(`\nExtracted ${Object.keys(hexes).length.toLocaleString()} H3 hexagons (resolution 3)`)
+
   const arr = Object.values(hexes)
   const months = getMonthNames(world)
   const temps = new Map<string, number>()
@@ -39,6 +47,22 @@ const calculatePreliminaryTemps = (world: World, hexes: Record<string, Hex>, yea
     }
   }
 
+  if (!maps) return hexes
+
+  const path = './maps/preliminary'
+  Deno.mkdirSync(path, { recursive: true })
+  renderGIF(world, hexes, `${path}/monthly.gif`)
+
+  const values = new Map<string, number>()
+  for (const { id, climate } of arr) {
+    const monthly = Object.values(climate.temperatures)
+    values.set(id, getAverage(...monthly))
+  }
+
+  const svg = renderSVG(hexes, { scale, values })
+  Deno.writeTextFileSync(`${path}/annual.svg`, svg)
+  console.log(`\nSaved maps to ${path}`)
+
   return hexes
 }
 
@@ -54,27 +78,9 @@ if (import.meta.main) {
 
   program.parse(Deno.args, { from: 'user' })
   const { source, dest, years, maps } = program.opts()
-  const hexes = extract(source)
-  console.log(`\nExtracted ${Object.keys(hexes).length.toLocaleString()} H3 hexagons (resolution 3)`)
-  const data = calculatePreliminaryTemps(world, hexes, years)
+  const data = calculatePreliminaryTemps(source, world, years, maps)
   Deno.writeTextFileSync(dest, JSON.stringify(data))
-  console.log(`\nSaved data to ${dest}`)
-
-  if (!maps) Deno.exit(0)
-
-  const path = './maps/preliminary'
-  Deno.mkdirSync(path, { recursive: true })
-  renderGIF(world, data, `${path}/monthly.gif`)
-
-  const arr = Object.values(data)
-  const values = new Map<string, number>()
-  for (const { id, climate } of arr) {
-    const monthly = Object.values(climate.temperatures)
-    values.set(id, getAverage(...monthly))
-  }
-
-  const svg = renderSVG(data, { scale, values })
-  Deno.writeTextFileSync(`${path}/annual.svg`, svg)
-
-  console.log(`Saved maps to ${path}`)
+  console.log(`Saved data to ${dest}`)
 }
+
+export default calculatePreliminaryTemps

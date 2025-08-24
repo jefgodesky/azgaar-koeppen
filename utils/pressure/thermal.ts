@@ -2,7 +2,7 @@ import type Hex from '../../types/Hex.ts'
 import type World from '../../types/World.ts'
 import getMonth from '../calendar/month.ts'
 
-const TREF = 15
+export const TREF = 15
 
 const calculateThermalPressure = (
   world: World,

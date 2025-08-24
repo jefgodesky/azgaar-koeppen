@@ -1,7 +1,7 @@
 import type Hex from '../../types/Hex.ts'
 import type World from '../../types/World.ts'
 import getMonth from '../calendar/month.ts'
-import getMonthNames from '../calendar/month-names.ts'
+import getYearLength from '../calendar/year.ts'
 
 const calculateSeasonalFactor = (
   world: World,
@@ -10,7 +10,8 @@ const calculateSeasonalFactor = (
 ): number => {
   const months = getMonthNames(world)
   const { index } = getMonth(world, month)
-  const s = Math.cos(index * Math.PI / (months.length / 2))
+  const halfYear = getYearLength(world, 'm') / 2
+  const s = Math.cos(index * Math.PI / halfYear)
   return hex.center.latitude >= 0 ? s : s * -1
 }
 

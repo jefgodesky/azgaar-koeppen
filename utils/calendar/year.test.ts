@@ -11,4 +11,8 @@ describe('getYearLength', () => {
   it('returns the length of the year in seconds', () => {
     expect(getYearLength(createWorld(), 's')).toEqual(365 * 24 * 60 * 60)
   })
+
+  it('returns the number of months in a year', () => {
+    expect(getYearLength(createWorld(), 'm')).toEqual(12)
+  })
 })

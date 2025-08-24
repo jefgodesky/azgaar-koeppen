@@ -8,7 +8,6 @@ const calculateSeasonalFactor = (
   hex: Hex,
   month: string | number
 ): number => {
-  const months = getMonthNames(world)
   const { index } = getMonth(world, month)
   const halfYear = getYearLength(world, 'm') / 2
   const s = Math.cos(index * Math.PI / halfYear)

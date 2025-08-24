@@ -12,7 +12,7 @@ const calculateContinentalPressure = (
   const latitude = Math.abs(hex.center.latitude)
   const intensity = Math.min(continentality / 15, 0.8) * Math.max(0, (latitude - 25) / 65)
   const seasonal = calculateSeasonalFactor(world, hex, month)
-  return intensity * seasonal * 20
+  return intensity * seasonal * 12
 }
 
 export default calculateContinentalPressure

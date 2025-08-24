@@ -13,7 +13,7 @@ const calculateOrographicPressure = (
   const { name: m } = getMonth(world, month)
   const effect = Math.min(elevation / 2000, 1)
   const temp = hex.climate.temperatures[m]
-  return effect * (temp > TREF ? -3 : 2)
+  return effect * (temp > TREF ? -2 : 1.5)
 }
 
 export default calculateOrographicPressure

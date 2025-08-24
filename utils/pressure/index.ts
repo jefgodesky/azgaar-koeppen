@@ -1,6 +1,5 @@
 import type Hex from '../../types/Hex.ts'
 import type World from '../../types/World.ts'
-import calculateCirculationPressure from './circulation.ts'
 import calculateThermalPressure from './thermal.ts'
 import calculateContinentalPressure from './continental.ts'
 import calculateOrographicPressure from './orographic.ts'
@@ -17,12 +16,11 @@ export const SEA_LEVEL_PRESSURE = 1013.25
  */
 
 const calculatePressure = (world: World, hex: Hex, month: string | number): number => {
-  const circulation = calculateCirculationPressure(hex)
-  const thermalIntensity = (hex.type[0] > 0 ? 0.3 : 1.0)
+  const thermalIntensity = (hex.type[0] > 0 ? 0.4 : 0.6)
   const thermal = calculateThermalPressure(world, hex, month) * thermalIntensity
   const continental = calculateContinentalPressure(world, hex, month)
   const orographic = calculateOrographicPressure(world, hex, month)
-  return SEA_LEVEL_PRESSURE + circulation + thermal + continental + orographic
+  return SEA_LEVEL_PRESSURE + thermal + continental + orographic
 }
 
 export default calculatePressure

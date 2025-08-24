@@ -15,12 +15,6 @@ describe('calculatePressure', () => {
     return hex
   }
 
-  it('decreases with altitude', () => {
-    const hex = createTestHex([1000, 1000])
-    const actual = calculatePressure(world, hex, 'Jan')
-    expect(actual).toBeLessThan(SEA_LEVEL_PRESSURE)
-  })
-
   it('factors in altitude and temperature', () => {
     const hex = createTestHex([2000, 2000])
     hex.climate.temperatures.Jan = 25

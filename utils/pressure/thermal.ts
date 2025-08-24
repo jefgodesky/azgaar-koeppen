@@ -11,8 +11,9 @@ const calculateThermalPressure = (
 ): number => {
   const { name: m } = getMonth(world, month)
   const temperature = hex.climate.temperatures[m]
-  const delta = temperature - TREF
-  return -0.8 * delta -0.02 * Math.pow(delta, 2)
+  const diff = temperature - TREF
+  const delta = Math.sign(diff) * Math.max(0, Math.abs(diff) - 2)
+  return -0.8 * delta - 0.02 * Math.pow(delta, 2)
 }
 
 export default calculateThermalPressure
